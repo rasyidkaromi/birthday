@@ -1,7 +1,7 @@
 import moment from 'moment';
 import moment_timezone from 'moment-timezone';
 import sqlite3 from "sqlite3";
-import Axios from "axios";
+import axios from 'axios';
 import workerpool from "workerpool";
 
 import { db_system } from '../database/db.system'
@@ -21,23 +21,29 @@ class HelperSystem {
 
     processData = async (file: any) => {
         try {
-            const resData = await Axios.request<any>({
-                method: "POST",
-                url: 'http://localhost:3030/send-email/',
-                data: {
-                    "email": file.email,
-                    "message": `Hey, ${file.firstName} ${file.lastName} it’s your birthday`
-                }
-            })
-            console.log(resData);
+            // const resData = await axios.request<any>({
+            //     method: "POST",
+            //     url: 'http://localhost:3030/send-email/',
+            //     data: {
+            //         "email": file.email,
+            //         "message": `Hey, ${file.firstName} ${file.lastName} it’s your birthday`
+            //     }
+            // })
+            axios.post("http://localhost:3030/send-email/", {
+                "email": file.email,
+                "message": `Hey, ${file.firstName} ${file.lastName} it’s your birthday`
+            }).then((response) => {
+                console.log('processData', response);
+            });
+            // console.log('processData', resData);
         } catch (e) {
-            console.log(e);          // log an error
+            console.log(e);          // log an errors
             throw e;                 // propagate rejection/error
         }
     }
     processData_late = async (file: any) => {
         try {
-            const resData = await Axios.request<any>({
+            const resData = await axios.request<any>({
                 method: "POST",
                 url: 'http://localhost:3030/send-email/',
                 data: {
@@ -45,7 +51,7 @@ class HelperSystem {
                     "message": `Hey, ${file.firstName} ${file.lastName}, yesterday it’s your birthday`
                 }
             })
-            console.log(resData);
+            console.log('processData_late', resData);
         } catch (e) {
             console.log(e);          // log an error
             throw e;                 // propagate rejection/error
@@ -187,11 +193,11 @@ class HelperSystem {
      */
     isStillHaveBirthday_today_melbourne() {
         return new Promise<boolean>(async (resolve) => {
-            const sql_newyork = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York"`;
+            const sql_melbourne = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York"`;
             const this_day = moment_timezone().tz("Australia/Melbourne").format('DD');
             const this_month = moment_timezone().tz("Australia/Melbourne").format('MM')
             const params: any[] = [];
-            const user_newyork: IUserBirthday[] = await this.query(sql_newyork, params);
+            const user_newyork: IUserBirthday[] = await this.query(sql_melbourne, params);
             let isHaveBirthday: boolean = false;
             let count = 0
             // console.log('this_day', this_day, 'this_month', this_month)
@@ -223,13 +229,13 @@ class HelperSystem {
      */
     isStillHaveBirthday_yesterday_melbourne() {
         return new Promise<boolean>(async (resolve) => {
-            const sql_newyork = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York"`;
+            const sql_melbourne = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York"`;
             const this_day = moment_timezone().tz("Australia/Melbourne").format('DD');
             const this_month = moment_timezone().tz("Australia/Melbourne").format('MM');
             const date_onlast_month = moment().subtract(1, 'months').endOf('month').tz("Australia/Melbourne").daysInMonth().toString();
             const month_last = moment().subtract(1, 'month').format('MM')
             const params: any[] = [];
-            const user_newyork: IUserBirthday[] = await this.query(sql_newyork, params);
+            const user_newyork: IUserBirthday[] = await this.query(sql_melbourne, params);
             let isHaveBirthday: boolean = false;
             let count = 0
 
@@ -280,7 +286,12 @@ class HelperSystem {
     }
 
     getBirthdayData_newyork() {
-
+        return new Promise<IUserBirthday[]>(async (resolve) => {
+            const sql_newyork = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York" AND bs.birthdayStatus = 0`;
+            const params: any[] = [];
+            const user_newyork: IUserBirthday[] = await this.query(sql_newyork, params);
+            resolve(user_newyork)
+        })
     }
 
 }

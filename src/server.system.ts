@@ -20,7 +20,11 @@ const findbirthday_newyork = async () => {
     console.log('this_day', this_day, 'this_month', this_month, 'total_day_onthis_month', total_day_onthis_month, 'total_day_onlast_month', total_day_onlast_month)
 
     if (isTodayHaveBirthday) {
-        system.executeData
+        // system.executeData
+        let userNewYork = await system.getBirthdayData_newyork()
+        // console.log('userNewYork', userNewYork)
+        let execute_newyork = await system.executeData(userNewYork, 'today')
+        console.log('execute_newyork', execute_newyork)
     }
 
     // return new Promise(async (resolve) => {
