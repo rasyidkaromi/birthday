@@ -37,6 +37,7 @@ const error_502 = (req: Request, res: Response, next: NextFunction) => {
   </body></html>`);
 }
 
+// check req data for response status 400
 const check_request = (req: Request) => {
     let data = req.body
     return new Promise((resolve) => {
@@ -88,6 +89,7 @@ const check_request = (req: Request) => {
 }
 
 app.post("/send-email", async (req: Request, res: Response, next: NextFunction) => {
+    
     const rand_Time = Math.floor(Math.random() * 3) + 1;
     const rand_Func = Math.floor(Math.random() * 3) + 1;
     const resCheck : any = await check_request(req)
@@ -98,6 +100,7 @@ app.post("/send-email", async (req: Request, res: Response, next: NextFunction) 
     } else {
         setTimeout(() => {
             if (rand_Func == 1) {
+                console.log('OPEN send-email CODE 200', req.body.email, req.body.message)
                 send_200(req, res, next)
             }
             if (rand_Func == 2) {

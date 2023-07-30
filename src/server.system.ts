@@ -1,66 +1,72 @@
 import { HelperSystem } from './util/Helper.system'
-import moment from 'moment';
+// import moment from 'moment';
 import moment_timezone from 'moment-timezone';
-import { IUserBirthday } from './entities/IUserBirthday'
+// import { IUserBirthday } from './entities/IUserBirthday'
 
 const system = new HelperSystem();
 
-const findbirthday_newyork = async () => {
-    let isTodayHaveBirthday = await system.isStillHaveBirthday_today_newyork()
-    console.log('isTodayHaveBirthday', isTodayHaveBirthday)
+console.log('SYSTEM SERVER READY...')
 
-    let isYesterdayHaveBirthday = await system.isStillHaveBirthday_yesterday_newyork()
-    console.log('isYesterdayHaveBirthday', isYesterdayHaveBirthday)
-
-    let this_month = moment_timezone().tz("America/New_York").format('MM')
-    let this_day = moment_timezone().tz("America/New_York").format('DD')
-    let total_day_onthis_month = moment_timezone().tz("America/New_York").daysInMonth()
-    let total_day_onlast_month = moment().subtract(1, 'months').endOf('month').tz("America/New_York").daysInMonth()
-
-    console.log('this_day', this_day, 'this_month', this_month, 'total_day_onthis_month', total_day_onthis_month, 'total_day_onlast_month', total_day_onlast_month)
-
-    if (isTodayHaveBirthday) {
-        // system.executeData
-        let userNewYork = await system.getBirthdayData_newyork()
-        // console.log('userNewYork', userNewYork)
-        let execute_newyork = await system.executeData(userNewYork, 'today')
-        console.log('execute_newyork', execute_newyork)
+const setBirthdayToday_newyork = async () => {
+    let isTodayHaveBirthday_newyork = await system.isStillHaveBirthday_today_newyork()
+    // console.log('isTodayHaveBirthday_newyork', isTodayHaveBirthday_newyork)
+    if (isTodayHaveBirthday_newyork.length > 0) {
+        let execute_newyork_today = await system.executeData(isTodayHaveBirthday_newyork, 'today')
+        // console.log('execute_newyork today', execute_newyork_today)
+        setBirthdayToday_newyork()
     }
-
-    // return new Promise(async (resolve) => {
-    //     const sql_newyork = `SELECT * FROM user us INNER JOIN birthdayStatus bs on us.id = bs.userId WHERE location = "New York"`;
-    //     const params: any[] = [];
-    //     const user_newyork: IUserBirthday[] = await system.query(sql_newyork, params);
-    //     // console.log(user_newyork)
-    //     user_newyork.map((userVal) => {
-    //         if (!userVal.birthdayStatus) {
-
-    //             let user_month = moment(Number(userVal.birthdayDate)).tz("America/New_York").format('MM')
-    //             let user_day = moment(Number(userVal.birthdayDate)).tz("America/New_York").format('DD')
-    //             console.log('user_day', user_day, 'user_month', user_month)
-    //             if (this_day === user_day) {
-
-    //             }
-
-    //         }
-    //     })
-    // })
 }
 
-findbirthday_newyork()
+const setBirthdayYesterday_newyork = async () => {
+    let isYesterdayHaveBirthday_newyork = await system.isStillHaveBirthday_yesterday_newyork()
+    // console.log('isYesterdayHaveBirthday_newyork', isYesterdayHaveBirthday_newyork)
+    if (isYesterdayHaveBirthday_newyork.length > 0) {
+        let execute_newyork_yesterday = await system.executeData(isYesterdayHaveBirthday_newyork, 'yesterday')
+        // console.log('execute_newyork_yesterday', execute_newyork_yesterday)
+        setBirthdayYesterday_newyork()
+    }
+}
+
+
+
+const setBirthdayToday_melbourne = async () => {
+    let isTodayHaveBirthday_melbourne = await system.isStillHaveBirthday_today_melbourne()
+    if (isTodayHaveBirthday_melbourne.length > 0) {
+        let execute_melbourne_today = await system.executeData(isTodayHaveBirthday_melbourne, 'today')
+        // console.log('execute_melbourne today', execute_melbourne_today)
+        setBirthdayToday_melbourne()
+    }
+
+}
+
+const setBirthdayYesterday_melbourne = async () => {
+    let isYesterdayHaveBirthday_melbourne = await system.isStillHaveBirthday_yesterday_melbourne()
+    if (isYesterdayHaveBirthday_melbourne.length > 0) {
+        let execute_melbourne_yesterday = await system.executeData(isYesterdayHaveBirthday_melbourne, 'yesterday')
+        // console.log('execute_melbourne_yesterday', execute_melbourne_yesterday)
+        setBirthdayYesterday_melbourne()
+    }
+}
+
+
 
 const timer = setInterval(() => {
-    // process.stdout.write('New_York  ' + moment_timezone().tz("America/New_York").format('D. MMMM YYYY H:mm:ss') + "  |  Melbourne  " + moment_timezone().tz("Australia/Melbourne").format('D. MMMM YYYY H:mm:ss') + "\r");
-}, 1000)
-
-const second_timer = setInterval(() => {
+    let newyorkTime_nine = moment_timezone().tz("America/New_York").format('HH:mm:ss');
+    let melbourneTime_nine = moment_timezone().tz("Australia/Melbourne").format('HH:mm:ss');
+    if (newyorkTime_nine == '09:00:00') {
+        setBirthdayToday_newyork()
+        setBirthdayYesterday_newyork()
+    }
+    if (melbourneTime_nine == '09:00:00') {
+        setBirthdayToday_melbourne()
+        setBirthdayYesterday_melbourne()
+    }
 
 }, 1000)
 
 
 function exitHandler(options: any, exitCode: any) {
     clearInterval(timer)
-    clearInterval(second_timer)
     if (options.cleanup) console.log('clean');
     if (exitCode || exitCode === 0) console.log(exitCode);
     if (options.exit) process.exit();
