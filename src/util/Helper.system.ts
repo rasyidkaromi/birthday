@@ -100,7 +100,7 @@ class HelperSystem {
 
     /**
      * 
-     * @returns boolean, check if today is have user birthday for new-york time-zone
+     * @returns array, check if today is have user birthday for new-york time-zone
      */
     isStillHaveBirthday_today_newyork() {
         return new Promise<any>(async (resolve) => {
@@ -140,7 +140,7 @@ class HelperSystem {
 
     /**
      * 
-     * @returns boolean, check if yesterday is have user birthday for new-york time-zone
+     * @returns array, check if yesterday is have user birthday for new-york time-zone
      */
     isStillHaveBirthday_yesterday_newyork() {
         return new Promise<any>(async (resolve) => {
@@ -209,7 +209,7 @@ class HelperSystem {
 
     /**
      * 
-     * @returns boolean, check if today is have user birthday for melbourne time-zone
+     * @returns array, check if today is have user birthday for melbourne time-zone
      */
     isStillHaveBirthday_today_melbourne() {
         return new Promise<any>(async (resolve) => {
@@ -247,7 +247,7 @@ class HelperSystem {
 
     /**
      * 
-     * @returns boolean, check if yesterday is have user birthday for melbourne time-zone
+     * @returns array, check if yesterday is have user birthday for melbourne time-zone
      */
     isStillHaveBirthday_yesterday_melbourne() {
         return new Promise<any>(async (resolve) => {
