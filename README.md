@@ -12,6 +12,7 @@
 5. start server system | yarn startp.system 
 to accessed or change digitalenvision api or localhost server email, just change in line 38, 59, in /util/Helper.system.ts
 6. yarn test | simple test
+database using sqlite
 ```
 
 ------------------------------------------------------------
