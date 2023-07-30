@@ -1,5 +1,4 @@
 import { Application, Router, NextFunction, Request, Response } from 'express';
-// import { databaseConnection, CacheData } from './database';
 import { IUser } from '../entities/IUser';
 import { UserRepository } from "../repository/UserRepository";
 
