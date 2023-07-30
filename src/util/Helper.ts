@@ -66,7 +66,7 @@ class Helper {
         return new Promise<IUser[]>((resolve) => {
             let dataUser: IUser[] = [];
             let count = 0;
-            let totalCount = 30;
+            let totalCount = 1000;
             for (let i = 0; i < totalCount; i++) {
                 let loca = this.generate_RandomLocation();
                 const shortNames = uniqueNamesGenerator({

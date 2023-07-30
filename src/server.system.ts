@@ -9,20 +9,16 @@ console.log('SYSTEM SERVER READY...')
 
 const setBirthdayToday_newyork = async () => {
     let isTodayHaveBirthday_newyork = await system.isStillHaveBirthday_today_newyork()
-    // console.log('isTodayHaveBirthday_newyork', isTodayHaveBirthday_newyork)
     if (isTodayHaveBirthday_newyork.length > 0) {
         let execute_newyork_today = await system.executeData(isTodayHaveBirthday_newyork, 'today')
-        // console.log('execute_newyork today', execute_newyork_today)
         setBirthdayToday_newyork()
     }
 }
 
 const setBirthdayYesterday_newyork = async () => {
     let isYesterdayHaveBirthday_newyork = await system.isStillHaveBirthday_yesterday_newyork()
-    // console.log('isYesterdayHaveBirthday_newyork', isYesterdayHaveBirthday_newyork)
     if (isYesterdayHaveBirthday_newyork.length > 0) {
         let execute_newyork_yesterday = await system.executeData(isYesterdayHaveBirthday_newyork, 'yesterday')
-        // console.log('execute_newyork_yesterday', execute_newyork_yesterday)
         setBirthdayYesterday_newyork()
     }
 }
@@ -33,7 +29,6 @@ const setBirthdayToday_melbourne = async () => {
     let isTodayHaveBirthday_melbourne = await system.isStillHaveBirthday_today_melbourne()
     if (isTodayHaveBirthday_melbourne.length > 0) {
         let execute_melbourne_today = await system.executeData(isTodayHaveBirthday_melbourne, 'today')
-        // console.log('execute_melbourne today', execute_melbourne_today)
         setBirthdayToday_melbourne()
     }
 
@@ -43,12 +38,14 @@ const setBirthdayYesterday_melbourne = async () => {
     let isYesterdayHaveBirthday_melbourne = await system.isStillHaveBirthday_yesterday_melbourne()
     if (isYesterdayHaveBirthday_melbourne.length > 0) {
         let execute_melbourne_yesterday = await system.executeData(isYesterdayHaveBirthday_melbourne, 'yesterday')
-        // console.log('execute_melbourne_yesterday', execute_melbourne_yesterday)
         setBirthdayYesterday_melbourne()
     }
 }
 
-
+setBirthdayToday_newyork()
+setBirthdayYesterday_newyork()
+setBirthdayToday_melbourne()
+setBirthdayYesterday_melbourne()
 
 const timer = setInterval(() => {
     let newyorkTime_nine = moment_timezone().tz("America/New_York").format('HH:mm:ss');
