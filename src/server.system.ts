@@ -42,10 +42,10 @@ const setBirthdayYesterday_melbourne = async () => {
     }
 }
 
-setBirthdayToday_newyork()
-setBirthdayYesterday_newyork()
-setBirthdayToday_melbourne()
-setBirthdayYesterday_melbourne()
+// setBirthdayToday_newyork()
+// setBirthdayYesterday_newyork()
+// setBirthdayToday_melbourne()
+// setBirthdayYesterday_melbourne()
 
 const timer = setInterval(() => {
     let newyorkTime_nine = moment_timezone().tz("America/New_York").format('HH:mm:ss');
